@@ -1,34 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 
-const getStateFromLocalStorage = () => {
-  const storage = localStorage.getItem('counterState');
-  if (storage) return JSON.parse(storage).count;
-  return { count: 0 }
-}
+const useLocalStorage = (initialState, key) => {
+  const get = () => {
+    const storage = localStorage.getItem(key)
+    if (storage) return JSON.parse(storage)[value]
+    return initialState
+  }
+  const [value, setValue] = useState(get())
 
-const storeStateInLocalStorage = count => {
-  localStorage.setItem('counterState', JSON.stringify({ count }));
+  useEffect (() => {
+    localStorage.setItem(key, JSON.stringify({ value }))
+  }, [value])
+
+  return [value, setValue]
 }
 
 const Counter = ({ max, step }) => {
-  const [count, setCount] = useState(getStateFromLocalStorage());
+  const [count, setCount] = useLocalStorage(0, 'count')
 
   const increment = () => {
     setCount(c => {
-      if (c >= max) return c;
-      return c + step;
+      if (c >= max) return c
+      return c + step
     });
   }
-  const decrement = () => setCount(count - 1);
-  const reset = () => setCount(0);
+  const decrement = () => setCount(count - 1)
+  const reset = () => setCount(0)
 
   useEffect(() => {
-    document.title = `Counter: ${count}`;
-  }, [count]);
-
-  useEffect(() => {
-    storeStateInLocalStorage(count);
-  }, [count]);
+    document.title = `Counter: ${count}`
+  }, [count])
 
   return (
     <div className="Counter">
@@ -42,4 +43,4 @@ const Counter = ({ max, step }) => {
   );
 }
 
-export default Counter;
+export default Counter
