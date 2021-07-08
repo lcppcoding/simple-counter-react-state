@@ -13,48 +13,27 @@ function increment() {
   );
 }
 
-const getStateFromLocalStorage = () => {
-  const storage = localStorage.getItem('counterState');
-  if (storage) return JSON.parse(storage);
-  return { count: 0 }
-}
+const Counter = ({ max, step }) => {
+  const [count, setCount] = React.useState(0);
 
-class Counter extends Component {
-  constructor(props) {
-    super(props);
-    this.state = getStateFromLocalStorage();
-
-    this.increment = this.increment.bind(this);
-    this.decrement = this.decrement.bind(this);
-    this.reset = this.reset.bind(this);
+  const increment = () => {
+    setCount(c => {
+      if (c >= max) return c;
+      return c + step;
+    });
   }
-
-  increment() {
-    this.setState(increment);
-  }
-
-
-  decrement() {
-    this.setState({ count: this.state.count - 1 });
-  }
-
-  reset() {
-    this.setState({ count: this.state.count = 0 });
-  }
-
-  render() {
-    const { count } = this.state;
-    return (
-      <div className="Counter">
-        <p className="count">{count}</p>
-        <section className="controls">
-          <button onClick={this.increment}>Increment</button>
-          <button onClick={this.decrement}>Decrement</button>
-          <button onClick={this.reset}>Reset</button>
-        </section>
-      </div>
-    );
-  }
+  const decrement = () => setCount(count - 1);
+  const reset = () => setCount(0);
+  return (
+    <div className="Counter">
+      <p className="count">{count}</p>
+      <section className="controls">
+        <button onClick={increment}>Increment</button>
+        <button onClick={decrement}>Decrement</button>
+        <button onClick={reset}>Reset</button>
+      </section>
+    </div>
+  );
 }
 
 export default Counter;
