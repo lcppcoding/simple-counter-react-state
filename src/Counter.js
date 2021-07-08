@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 const useLocalStorage = (initialState, key) => {
   const get = () => {
     const storage = localStorage.getItem(key)
-    if (storage) return JSON.parse(storage)[value]
+    if (storage) return JSON.parse(storage).value
     return initialState
   }
   const [value, setValue] = useState(get())
@@ -22,7 +22,7 @@ const Counter = ({ max, step }) => {
     setCount(c => {
       if (c >= max) return c
       return c + step
-    });
+    })
   }
   const decrement = () => setCount(count - 1)
   const reset = () => setCount(0)
@@ -40,7 +40,7 @@ const Counter = ({ max, step }) => {
         <button onClick={reset}>Reset</button>
       </section>
     </div>
-  );
+  )
 }
 
 export default Counter
